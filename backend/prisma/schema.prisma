@@ -1,0 +1,172 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int       @id @default(autoincrement())
+  role         Role
+  name         String
+  email        String    @unique
+  passwordHash String
+  isActive     Boolean   @default(true)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  teacher      Teacher?
+  student      Student?
+  auditLogs    AuditLog[]
+  notifications Notification[]
+  webPushSubscriptions WebPushSubscription[]
+}
+
+enum Role {
+  supervisor
+  teacher
+  student
+}
+
+model Teacher {
+  id           Int    @id
+  displayColor String
+  user         User   @relation(fields: [id], references: [id])
+  courses      Course[]
+  attendances  Attendance[] @relation("TeacherAttendance")
+}
+
+model Student {
+  id              Int    @id
+  studentNo       String
+  guardianContact String?
+  user            User   @relation(fields: [id], references: [id])
+  classes         ClassStudent[]
+  attendances     Attendance[]
+}
+
+model Class {
+  id         Int           @id @default(autoincrement())
+  name       String
+  code       String        @unique
+  grade      String
+  branch     String
+  createdBy  Int
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+  courses    Course[]
+  students   ClassStudent[]
+}
+
+model ClassStudent {
+  id        Int      @id @default(autoincrement())
+  class     Class    @relation(fields: [classId], references: [id])
+  classId   Int
+  student   Student  @relation(fields: [studentId], references: [id])
+  studentId Int
+  isActive  Boolean  @default(true)
+  joinedAt  DateTime @default(now())
+
+  @@unique([classId, studentId])
+}
+
+model Course {
+  id           Int              @id @default(autoincrement())
+  class        Class            @relation(fields: [classId], references: [id])
+  classId      Int
+  name         String
+  code         String          @unique
+  teacher      Teacher          @relation(fields: [teacherId], references: [id])
+  teacherId    Int
+  weeklyHours  Int              @default(1)
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+  sessions     ScheduleSession[]
+}
+
+model Term {
+  id                        Int      @id @default(autoincrement())
+  name                      String   @unique
+  startDate                 DateTime
+  endDate                   DateTime
+  absenceThresholdPercent   Int      @default(30)
+  sessions                  ScheduleSession[]
+}
+
+model ScheduleSession {
+  id        Int        @id @default(autoincrement())
+  course    Course     @relation(fields: [courseId], references: [id])
+  courseId  Int
+  term      Term       @relation(fields: [termId], references: [id])
+  termId    Int
+  date      DateTime
+  startTime DateTime
+  endTime   DateTime
+  isLocked  Boolean    @default(false)
+  attendances Attendance[]
+}
+
+enum AttendanceStatus {
+  present
+  excused
+  unexcused
+}
+
+model Attendance {
+  id                 Int               @id @default(autoincrement())
+  scheduleSession    ScheduleSession   @relation(fields: [scheduleSessionId], references: [id])
+  scheduleSessionId  Int
+  student            Student           @relation(fields: [studentId], references: [id])
+  studentId          Int
+  status             AttendanceStatus
+  takenBy            Teacher?          @relation("TeacherAttendance", fields: [takenById], references: [id])
+  takenById          Int?
+  takenAt            DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
+
+  @@unique([scheduleSessionId, studentId])
+}
+
+model FeatureFlag {
+  key       String @id
+  valueJson String
+  updatedAt DateTime @updatedAt
+}
+
+model AuditLog {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  action    String
+  entity    String
+  entityId  Int
+  metaJson  String
+  createdAt DateTime @default(now())
+}
+
+model Notification {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  channel   NotificationChannel
+  title     String
+  body      String
+  readAt    DateTime?
+  createdAt DateTime @default(now())
+}
+
+model WebPushSubscription {
+  id        Int     @id @default(autoincrement())
+  user      User    @relation(fields: [userId], references: [id])
+  userId    Int
+  endpoint  String  @unique
+  p256dh    String
+  auth      String
+  createdAt DateTime @default(now())
+}
+
+enum NotificationChannel {
+  inapp
+  webpush
+}
