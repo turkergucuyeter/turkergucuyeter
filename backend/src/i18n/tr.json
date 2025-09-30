@@ -1,0 +1,18 @@
+{
+  "auth.errors.missingToken": "Yetkilendirme gerekli.",
+  "auth.errors.invalidToken": "Geçersiz oturum anahtarı.",
+  "auth.errors.unauthorized": "Bu işlem için yetkiniz yok.",
+  "auth.login.success": "Başarıyla giriş yapıldı.",
+  "auth.login.invalidCredentials": "E-posta veya şifre hatalı.",
+  "auth.logout.success": "Çıkış yapıldı.",
+  "attendance.status.present": "Var",
+  "attendance.status.excused": "İzinli",
+  "attendance.status.unexcused": "İzinsiz",
+  "attendance.locked": "Ders oturumu kilitlendi.",
+  "attendance.updated": "Yoklama güncellendi.",
+  "attendance.saved": "Yoklama kaydedildi.",
+  "attendance.cutoffReached": "Ders süresi dolduğu için güncelleme yapılamaz.",
+  "common.errors.unexpected": "Beklenmeyen bir hata oluştu.",
+  "notifications.thresholdReached": "Devamsızlık eşiğiniz aşıldı.",
+  "notifications.thresholdBody": "{course} dersinde devamsızlık oranınız %{percent} seviyesine ulaştı."
+}

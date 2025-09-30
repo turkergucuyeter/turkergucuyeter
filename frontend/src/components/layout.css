@@ -1,0 +1,394 @@
+.app-shell {
+  min-height: 100vh;
+  background: #f4f6fb;
+  color: #111827;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: #1e3a8a;
+  color: #fff;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.app-header button {
+  background: #f59e0b;
+  border: none;
+  padding: 0.5rem 1rem;
+  color: #111827;
+  border-radius: 0.375rem;
+  cursor: pointer;
+}
+
+.app-main {
+  padding: 2rem;
+}
+
+.card {
+  background: #fff;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.1);
+  margin-bottom: 1.5rem;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.card-subtitle {
+  margin: 0.5rem 0 0;
+  color: #6b7280;
+  font-size: 0.95rem;
+}
+
+.card h2 {
+  margin-top: 0;
+}
+
+.alert {
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.alert-error {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.alert-success {
+  background: #dcfce7;
+  color: #14532d;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;
+}
+
+.table tr:hover {
+  background: #f9fafb;
+}
+
+.button {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.button.secondary {
+  background: #6b7280;
+}
+
+.form-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.form-grid label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 600;
+}
+
+.form-grid input,
+.form-grid select {
+  margin-top: 0.25rem;
+  padding: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+}
+
+.attendance-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.attendance-grid .table.fancy {
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+.attendance-grid .table.fancy thead {
+  background: #eff6ff;
+}
+
+.session-card {
+  border-left: 4px solid #2563eb;
+  padding-left: 1rem;
+}
+
+.teacher-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.teacher-badge span.badge-color {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 9999px;
+  display: inline-block;
+}
+
+.teacher-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.85rem;
+  border-radius: 9999px;
+  background: #fff;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  font-weight: 600;
+}
+
+.chip:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(37, 99, 235, 0.15);
+}
+
+.chip.active {
+  background: rgba(37, 99, 235, 0.08);
+  box-shadow: 0 12px 24px rgba(37, 99, 235, 0.2);
+}
+
+.chip-indicator {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.section-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+.section-grid .empty-state {
+  grid-column: 1 / -1;
+}
+
+.section-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 1rem;
+  border-radius: 1rem;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+  gap: 0.25rem;
+}
+
+.section-card:hover {
+  transform: translateY(-3px);
+  border-color: #2563eb;
+}
+
+.section-card.active {
+  background: #eff6ff;
+  border-color: #2563eb;
+  box-shadow: 0 12px 24px rgba(37, 99, 235, 0.15);
+}
+
+.section-class-name {
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.section-meta {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+.session-timeline {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.timeline-item {
+  flex: 1 1 220px;
+  min-width: 220px;
+  border-radius: 1rem;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  padding: 1rem;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.timeline-item:hover {
+  transform: translateY(-3px);
+  border-color: #2563eb;
+}
+
+.timeline-item.active {
+  border-color: #2563eb;
+  box-shadow: 0 18px 30px rgba(37, 99, 235, 0.2);
+}
+
+.timeline-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.timeline-title {
+  font-weight: 700;
+  color: #111827;
+}
+
+.timeline-time {
+  color: #4b5563;
+  font-size: 0.95rem;
+}
+
+.timeline-lock {
+  margin-top: 0.5rem;
+  display: inline-flex;
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+  background: #fee2e2;
+  color: #b91c1c;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.empty-state {
+  margin: 0;
+  color: #6b7280;
+}
+
+.skeleton {
+  height: 140px;
+  border-radius: 1rem;
+  background: linear-gradient(90deg, #f3f4f6 0%, #e5e7eb 50%, #f3f4f6 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.2s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.session-status {
+  display: flex;
+  align-items: center;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border-radius: 9999px;
+  padding: 0.4rem 0.75rem;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.status-pill.warning {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status-pill.success {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.student-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.avatar {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+.radio-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.6rem;
+  border-radius: 9999px;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.radio-pill input {
+  accent-color: #2563eb;
+}
+
+.radio-pill:hover {
+  border-color: #2563eb;
+}
+
+.radio-pill input:disabled + span,
+.radio-pill input:disabled {
+  cursor: not-allowed;
+}
+
+.action-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.action-row .button {
+  min-width: 200px;
+}

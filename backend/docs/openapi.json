@@ -1,0 +1,118 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Online Yoklama Takip API",
+    "version": "1.0.0",
+    "description": "Supervisor, öğretmen ve öğrenci rollerine sahip yoklama takibi API'si"
+  },
+  "servers": [
+    { "url": "http://localhost:4000", "description": "Yerel" }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Servis sağlığını döner",
+        "responses": {
+          "200": {
+            "description": "Sağlık yanıtı"
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "summary": "E-posta ve şifre ile giriş yap",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": { "type": "string" },
+                  "password": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Tokenlar" },
+          "401": { "description": "Yetkisiz" }
+        }
+      }
+    },
+    "/supervisor/teachers": {
+      "get": {
+        "summary": "Öğretmenleri listele",
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "200": { "description": "Liste" } }
+      },
+      "post": {
+        "summary": "Öğretmen oluştur",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": { "required": true },
+        "responses": { "201": { "description": "Oluşturuldu" } }
+      }
+    },
+    "/teacher/courses": {
+      "get": {
+        "summary": "Öğretmenin ders grupları",
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "200": { "description": "Liste" } }
+      }
+    },
+    "/teacher/courses/{courseId}/sessions": {
+      "get": {
+        "summary": "Seçilen ders için oturumlar",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "name": "courseId", "in": "path", "schema": { "type": "string" }, "required": true }
+        ],
+        "responses": { "200": { "description": "Oturum listesi" }, "403": { "description": "Yetkisiz" } }
+      }
+    },
+    "/teacher/sessions/{id}/attendance": {
+      "get": {
+        "summary": "Ders yoklamasını getir",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "schema": { "type": "string" }, "required": true }
+        ],
+        "responses": { "200": { "description": "Yoklama" }, "403": { "description": "Yetkisiz" } }
+      },
+      "post": {
+        "summary": "Yoklama kaydet",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "schema": { "type": "string" }, "required": true }
+        ],
+        "responses": { "201": { "description": "Kaydedildi" }, "400": { "description": "Kısıt" } }
+      },
+      "patch": {
+        "summary": "Yoklama güncelle",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "schema": { "type": "string" }, "required": true }
+        ],
+        "responses": { "200": { "description": "Güncellendi" }, "400": { "description": "Kısıt" } }
+      }
+    },
+    "/student/courses": {
+      "get": {
+        "summary": "Öğrencinin dersleri",
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "200": { "description": "Liste" } }
+      }
+    }
+  }
+}
