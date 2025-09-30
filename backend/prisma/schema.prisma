@@ -1,0 +1,151 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  role         Role
+  name         String
+  email        String   @unique
+  passwordHash String
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  teacher      Teacher?
+  student      Student?
+  notifications Notification[]
+  auditLogs    AuditLog[]
+}
+
+enum Role {
+  supervisor
+  teacher
+  student
+}
+
+model Teacher {
+  id           String  @id
+  displayColor String
+  user         User    @relation(fields: [id], references: [id])
+  courses      Course[]
+}
+
+model Student {
+  id              String   @id
+  studentNo       String
+  guardianContact String?
+  user            User     @relation(fields: [id], references: [id])
+  classEnrollments ClassStudent[]
+  attendances     Attendance[]
+}
+
+model Class {
+  id        String        @id @default(cuid())
+  name      String
+  grade     Int
+  branch    String
+  createdBy String
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  students  ClassStudent[]
+  courses   Course[]
+}
+
+model ClassStudent {
+  id         String   @id @default(cuid())
+  class      Class    @relation(fields: [classId], references: [id])
+  classId    String
+  student    Student  @relation(fields: [studentId], references: [id])
+  studentId  String
+  isActive   Boolean  @default(true)
+  joinedAt   DateTime @default(now())
+}
+
+model Course {
+  id          String            @id @default(cuid())
+  class       Class             @relation(fields: [classId], references: [id])
+  classId     String
+  name        String
+  code        String
+  teacher     Teacher           @relation(fields: [teacherId], references: [id])
+  teacherId   String
+  weeklyHours Int
+  sessions    ScheduleSession[]
+}
+
+model Term {
+  id                       String            @id @default(cuid())
+  name                     String
+  startDate                DateTime
+  endDate                  DateTime
+  absenceThresholdPercent  Int      @default(30)
+  scheduleSessions         ScheduleSession[]
+}
+
+model ScheduleSession {
+  id        String      @id @default(cuid())
+  course    Course      @relation(fields: [courseId], references: [id])
+  courseId  String
+  term      Term        @relation(fields: [termId], references: [id])
+  termId    String
+  date      DateTime
+  startTime DateTime
+  endTime   DateTime
+  isLocked  Boolean     @default(false)
+  attendances Attendance[]
+}
+
+enum AttendanceStatus {
+  present
+  excused
+  unexcused
+}
+
+model Attendance {
+  id                String           @id @default(cuid())
+  scheduleSession   ScheduleSession  @relation(fields: [scheduleSessionId], references: [id])
+  scheduleSessionId String
+  student           Student          @relation(fields: [studentId], references: [id])
+  studentId         String
+  status            AttendanceStatus
+  takenBy           String
+  takenAt           DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model FeatureFlag {
+  key      String @id
+  valueJson Json
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  action    String
+  entity    String
+  entityId  String
+  metaJson  Json
+  createdAt DateTime @default(now())
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  channel   NotificationChannel
+  title     String
+  body      String
+  readAt    DateTime?
+  createdAt DateTime @default(now())
+}
+
+enum NotificationChannel {
+  inapp
+  webpush
+}
