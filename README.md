@@ -14,7 +14,11 @@ Supervisor, öğretmen ve öğrencilerin manuel yoklama yönetimini kolaylaştı
 
 ## Mimari Genel Bakış
 
+
 - **Backend**: Node.js + Express + Prisma (SQLite dosyası).
+
+- **Backend**: Node.js + Express + Prisma (PostgreSQL).
+
   - JWT tabanlı kimlik doğrulama (access + refresh token).
   - Rol bazlı yetkilendirme (Supervisor, Teacher, Student).
   - Swagger dokümantasyonu `GET /docs`.
@@ -41,12 +45,17 @@ Supervisor, öğretmen ve öğrencilerin manuel yoklama yönetimini kolaylaştı
    cd ../frontend
    npm install
    ```
+
 3. **Backend ortam değişkenlerini** hazırla. Varsayılan `.env.example` dosyasını `.env` olarak kopyala; dosyadaki `DATABASE_URL` varsayılan olarak proje içinde saklanan SQLite dosyasını (`backend/data/app.db`) işaret eder. İstersen burada dosya yolunu değiştirebilirsin.
+
+3. **Veritabanı kurulumunu** tamamla (PostgreSQL önerilir, geliştirme için SQLite yerine PostgreSQL kullanılması tavsiye edilir). Varsayılan `.env.example` dosyasını `.env` olarak kopyala ve değerleri güncelle.
+
 
 ## Backend (API) Kurulumu
 
 1. `.env` dosyasını oluştur:
    ```bash
+
  cd backend
   cp .env.example .env
   ```
@@ -62,6 +71,24 @@ Supervisor, öğretmen ve öğrencilerin manuel yoklama yönetimini kolaylaştı
   ```bash
   npm run dev
   ```
+
+   cd backend
+   cp .env.example .env
+   ```
+2. PostgreSQL üzerinde bir veritabanı oluştur ve `.env` içindeki `DATABASE_URL` değerini güncelle.
+3. Prisma migrasyonlarını çalıştır:
+   ```bash
+   npm run prisma:migrate
+   ```
+4. Seed verilerini yükle (demo kullanıcılar oluşturulur):
+   ```bash
+   npm run seed
+   ```
+5. Geliştirme sunucusunu başlat:
+   ```bash
+   npm run dev
+   ```
+
    API `http://localhost:4000` üzerinde çalışır.
 6. Swagger dokümantasyonuna `http://localhost:4000/docs` adresinden erişebilirsin.
 
@@ -118,4 +145,8 @@ Seed script ile aşağıdaki kullanıcılar oluşturulur (şifre: `Password123!`
 - VAPID anahtarlarını üretmek için `npx web-push generate-vapid-keys` komutunu kullanabilirsin. Ortaya çıkan `publicKey`/`privateKey` değerlerini `.env` içinde sakla.
 - Feature flag güncellemeleri sonrasında, cache TTL süresini bekle veya uygulamayı yeniden başlat.
 
+
 > Not: Eğer SQLite yerine farklı bir veritabanı (ör. PostgreSQL) kullanmak istersen, `.env` içindeki `DATABASE_URL` değerini güncelleyip ilgili Prisma komutlarını (örn. `npm run prisma:migrate`) çalıştırman yeterlidir.
+
+> Not: Geliştirme ortamında Postgres yerine Docker kullanacaksan, `.env` içindeki bağlantı adresini güncelle ve `npm run prisma:migrate` komutunu konteyner çalışırken yürüt.
+

@@ -9,7 +9,9 @@
     "prisma:migrate": "prisma migrate dev",
     "prisma:generate": "prisma generate",
     "prisma:deploy": "prisma migrate deploy",
+
     "prisma:push": "prisma db push",
+
     "seed": "ts-node --esm prisma/seed.ts"
   },
   "dependencies": {

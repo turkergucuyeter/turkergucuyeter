@@ -204,6 +204,7 @@ router.post(
       throw new ApiError(400, 'CSV verisi zorunludur');
     }
 
+
     type StudentCsvRow = {
       name: string;
       email: string;
@@ -211,13 +212,19 @@ router.post(
       class_code?: string;
     };
 
+
     const parsed = parse(csv, {
       columns: true,
       skip_empty_lines: true,
       bom: true
+
     }) as StudentCsvRow[];
 
     const successes: StudentCsvRow[] = [];
+    });
+
+    const successes: unknown[] = [];
+
     const errors: Array<{ row: number; error: string }> = [];
     const passwordHash = await hashPassword(defaultPassword ?? 'Sifrem123');
 
@@ -248,12 +255,15 @@ router.post(
           return { ...createdStudent, user };
         });
 
+
         successes.push({
           name,
           email,
           student_no: studentNo,
           class_code: classCode ?? undefined
         });
+
+        successes.push(student);
       } catch (error) {
         errors.push({ row: index + 1, error: error instanceof Error ? error.message : 'Bilinmeyen hata' });
       }
