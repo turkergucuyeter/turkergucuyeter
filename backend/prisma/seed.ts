@@ -123,6 +123,8 @@ async function main() {
     };
   });
 
+
+  await prisma.scheduleSession.createMany({ data: sessionsData });
   await prisma.scheduleSession.createMany({ data: sessionsData, skipDuplicates: true });
 
   await prisma.featureFlag.upsert({
