@@ -17,6 +17,10 @@ backend/.env.local
 frontend/.env
 frontend/.env.local
 
+
+# SQLite database
+backend/data/*.db
+backend/data/*.db-journal
 # Prisma
 backend/prisma/dev.db
 backend/prisma/dev.db-journal
